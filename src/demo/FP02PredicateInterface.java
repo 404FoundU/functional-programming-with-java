@@ -5,6 +5,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+//https://courses.in28minutes.com/courses/621478/lectures/11111648
+//Predicate returns true or false - filter
 class EvenNumberPredicate implements Predicate<Integer> {
     @Override
     public boolean test(Integer number) {
@@ -12,6 +14,7 @@ class EvenNumberPredicate implements Predicate<Integer> {
     }
 }
 
+//Consumer accepts input and consumes - no return value
 class SystemOutConsumer implements Consumer<Integer>{
     @Override
     public void accept(Integer number) {
@@ -19,6 +22,7 @@ class SystemOutConsumer implements Consumer<Integer>{
     }
 }
 
+// Function accepts one input and gives output. Applies the function to the input
 class NumberSquareMapper implements Function<Integer, Integer>{
     @Override
     public Integer apply(Integer num) {
