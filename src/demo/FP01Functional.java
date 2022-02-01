@@ -1,6 +1,7 @@
 package demo;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class FP01Functional {
@@ -8,24 +9,39 @@ public class FP01Functional {
         List<Integer> numbers = List.of(12, 9, 13, 4, 6, 2, 4, 12, 15);
 //        printAllNumbers(numbers);
 //        printEvenNumbers(numbers);
-//        printEvenSquare(numbers);
+        printEvenSquare(numbers);
 //        printSum(numbers);
-        printMax(numbers);
+//        printMax(numbers);
 
     }
     private static void printAllNumbers(List<Integer> numbers) {
         numbers.stream().forEach(System.out::println);// Method reference
     }
     private static void printEvenNumbers(List<Integer> numbers) {
-        numbers.stream()
+         numbers.stream()
                 .filter(num -> num % 2 == 0)
                 .forEach(System.out::println);
+         List<Integer> list = numbers.stream()
+                 .filter(num -> num % 2 == 0)
+                 .collect(Collectors.toList());
+        System.out.println(list);
     }
     //Map
     private static void printEvenSquare(List<Integer> numbers) {
         numbers.stream()
                 .map(num -> num * num)
                 .forEach(System.out::println);
+        List<Integer> list = numbers.stream()
+                .map(num -> num * num)
+                        .collect(Collectors.toList());
+        System.out.println(list);
+        //boxed - Instream
+        list = IntStream.range(1,11)
+                .map(e -> e * e)
+                .boxed() // IntPipeline
+                .collect(Collectors.toList());
+        System.out.println(list);
+
     }
     //Reduce
     private static void printSum(List<Integer> numbers) {
@@ -59,6 +75,7 @@ there's a mismatch between the types of the accumulator arguments and the types 
         System.out.println(max2);
         numbers.stream()
                 .max((n1, n2) -> Integer.compare(n1, n2)).ifPresent(System.out::println);
+
     }
 
 
