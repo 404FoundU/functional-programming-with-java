@@ -1,5 +1,6 @@
 package demo;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.function.*;
@@ -35,15 +36,15 @@ public class FP03FunctionalInterfaces2 {
 		BiPredicate<Integer, String> biPredicate = (number,str) -> {
 			return number<10 && str.length()>5;
 		};
-		
 		System.out.println(biPredicate.test(10, "in28minutes"));
-		
+
 		BiFunction<Integer, String, String> biFunction = (number,str) -> {
 			return number + " " + str;
 		};
-		
-		System.out.println(biFunction.apply(15, "in28minutes"));
-		
+		System.out.println(biFunction.apply(15, "unni"));
+		List<BiFunction<String, String, Void>> UPDATE_LISTENERS = new ArrayList<>();
+			UPDATE_LISTENERS.forEach(l -> l.apply("u", "unni"));
+
 		BiConsumer<Integer, String> biConsumer = (s1,s2) -> {
 			System.out.println(s1);
 			System.out.println(s2);
