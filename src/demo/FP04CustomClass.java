@@ -1,6 +1,8 @@
 package demo;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 class Course {
     private String name;
@@ -60,6 +62,48 @@ public class FP04CustomClass {
                 new Course("Docker", "Cloud", 92, 20000),
                 new Course("Kubernetes", "Cloud", 91, 20000)
         );
+
+        //check review score greater than 90
+        boolean review90 = courses.stream()
+                .allMatch(e -> e.getReviewScore()>90);
+        System.out.println(review90);
+        //noneMatch - none of courses should pass predicate
+        boolean reviewLessThan90 = courses.stream()
+                .noneMatch(e -> e.getReviewScore()<90);
+        System.out.println(reviewLessThan90);
+        //anyMatch - any course match predicate
+
+        //Comparator
+        Comparator<Course> compareByNoOfStudents = Comparator.comparing(Course::getNoOfStudents).reversed();
+        // Sort by No of students
+        List<Course> courseList = courses.stream()
+                .sorted(compareByNoOfStudents)
+                .collect(Collectors.toList());
+//        System.out.println(courseList);
+
+        Comparator<Course> compareByNoOfStudentsAndReviews = Comparator.comparing(Course::getNoOfStudents)
+                .thenComparingInt(Course::getReviewScore)
+                .reversed();
+
+        List<Course> courseList2 = courses.stream()
+                .sorted(compareByNoOfStudentsAndReviews)
+                .limit(5)
+//                .skip(3) // skip first 3
+                .collect(Collectors.toList());
+//        System.out.println(courseList2);
+
+        // Return all courses unil score 95. All courses after which has +95 is not returned
+        List<Course> courseList3 = courses.stream()
+                .takeWhile(course -> course.getReviewScore()>=95)
+//                .dropWhile(course -> course.getReviewScore()>=95) // opp
+                .collect(Collectors.toList());
+        System.out.println(courseList3);
+
+
+
+
+
+
 
     }
 }
