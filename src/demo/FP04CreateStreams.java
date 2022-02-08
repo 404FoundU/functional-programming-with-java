@@ -44,5 +44,20 @@ public class FP04CreateStreams {
         //Boxed - cannot run collect on primitive streams
         List<Integer> list = IntStream.iterate(1, e -> e + 1).limit(10).boxed().collect(Collectors.toList());
         System.out.println(list);
+
+        //Join strings
+        List<String> courses = List.of("Spring", "Spring Boot", "API" , "Microservices","AWS", "PCF","Azure", "Docker", "Kubernetes");
+        //Join strings
+        String strJoin = courses.stream()
+                .collect(Collectors.joining(" "));
+        System.out.println(strJoin);
+        //SPlit - flatMap
+        List<String> strList = courses.stream()
+                .map(course -> course.split(""))
+                .flatMap(Arrays::stream)
+                .distinct()
+                .collect(Collectors.toList());
+        System.out.println(strList);
+
     }
 }
