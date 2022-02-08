@@ -1,9 +1,6 @@
 package demo;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 class Course {
@@ -43,12 +40,12 @@ class Course {
     }
     @Override
     public String toString() {
-        return "Course{" +
+        return
                 "name='" + name + '\'' +
-                "category='" + category + '\'' +
-                "reviewScore='" + reviewScore + '\'' +
-                "noOfStudents='" + noOfStudents + '\'' +
-                '}';
+                        "category='" + category + '\'' +
+                        "reviewScore='" + reviewScore + '\'' +
+                        "noOfStudents='" + noOfStudents + '\'' +
+                        '}';
     }
 }
 public class FP04CustomClass {
@@ -98,8 +95,40 @@ public class FP04CustomClass {
 //        Max - returns last value from comparator
         Course maxCourse = courses.stream()
                 .max(compareByNoOfStudentsAndReviews)
-                .orElse((new Course("Kubernetes", "Cloud", 91, 20000)));
-        System.out.println(maxCourse);
-
+                .orElse(new Course("Kubernetes", "Cloud", 91, 20000));
+//        System.out.println(maxCourse);
+        Course reviewG90 = courses.stream()
+                .filter(course -> course.getReviewScore() > 90)
+                .findFirst()
+                .orElse(new Course("Kubernetes", "Cloud", 91, 20000));
+//        System.out.println(reviewG90);
+        // Find number of students for predicate
+        int sum = courses.stream()
+                .filter(course -> course.getReviewScore() > 90)
+                .mapToInt(Course::getNoOfStudents)
+                .sum();// average, count, max
+//        System.out.println(sum)        ;
+        //Groupby - use with aggregator functions
+        /*
+        select count(movie_id ) as total , year
+        from movies
+        group by year
+         */
+        Map<String, List<Course>> groupByCategory = courses.stream()
+                .collect(Collectors.groupingBy(Course::getCategory));
+//        System.out.println(groupByCategory);
+        //Groupby and Count
+        Map<String, Long> groupByCategoryCount = courses.stream()
+                .collect(Collectors.groupingBy(Course::getCategory, Collectors.counting()));
+//        System.out.println(groupByCategoryCount);
+        //GroupBy Comparator
+        Map<String, Optional<Course>> groupByCategoryHighestReview = courses.stream()
+                .collect(Collectors.groupingBy(Course::getCategory, Collectors.maxBy(Comparator.comparing(Course::getReviewScore))));
+//        System.out.println(groupByCategoryHighestReview);
+        // group by course name only
+        Map<String, List<String>> groupByCategoryCourseName = courses.stream()
+                .collect(Collectors.groupingBy(Course::getCategory,
+                        Collectors.mapping(Course::getName, Collectors.toList())));
+        System.out.println(groupByCategoryCourseName);
     }
 }
