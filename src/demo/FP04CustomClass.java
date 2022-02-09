@@ -130,5 +130,17 @@ public class FP04CustomClass {
                 .collect(Collectors.groupingBy(Course::getCategory,
                         Collectors.mapping(Course::getName, Collectors.toList())));
         System.out.println(groupByCategoryCourseName);
+
+        List<String> coursesList = List.of("Spring", "Spring Boot", "API" , "Microservices","AWS", "PCF","Azure", "Docker", "Kubernetes");
+        String courseOne = coursesList.stream()
+                .peek(System.out::println)
+                .filter(course -> course.length() > 11)
+                .map(String::toUpperCase)
+                .peek(System.out::println)
+                .findFirst()
+                .orElse("Spring");
+        System.out.println(courseOne);
+
+
     }
 }

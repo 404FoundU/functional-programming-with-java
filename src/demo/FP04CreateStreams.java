@@ -55,6 +55,7 @@ public class FP04CreateStreams {
         List<String> strList = courses.stream()
                 .map(course -> course.split(""))
                 .flatMap(Arrays::stream)
+                .peek(System.out::println)
                 .distinct()
                 .collect(Collectors.toList());
         System.out.println(strList);
